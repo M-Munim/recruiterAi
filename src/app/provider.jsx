@@ -5,7 +5,6 @@ import { supabase } from '../../services/supabaseClient'
 import { User } from 'lucide-react'
 import { UserDetailContext } from '../../context/UserDetailContext'
 
-
 const Provider = ({ children }) => {
     const [user, setUser] = useState()
 
@@ -21,7 +20,7 @@ const Provider = ({ children }) => {
                 .select("*")
                 .eq("email", user?.email);
 
-            console.log(Users);
+            // console.log(Users);
             // if not then create user
             if (Users?.length === 0) {
                 const { data, error } = await supabase.from("Users")
@@ -42,7 +41,6 @@ const Provider = ({ children }) => {
 
     return (
         <UserDetailContext.Provider value={{ user, setUser }}>
-
             <div>{children}</div>
         </UserDetailContext.Provider>
     )

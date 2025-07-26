@@ -20,7 +20,7 @@ import { usePathname } from "next/navigation"
 
 const AppSidebar = () => {
     const path = usePathname()
-    console.log(path)
+    // console.log(path)
 
     return (
         <Sidebar>

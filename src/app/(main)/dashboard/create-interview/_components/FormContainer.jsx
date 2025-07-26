@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { InterviewType } from '../../../../../../services/Constants'
 import { Button } from '@/components/ui/button'
 
-const FormContainer = ({ onHandleInputChange }) => {
+const FormContainer = ({ onHandleInputChange, GoToNext }) => {
     const [interviewType, setInterviewType] = useState([]);
 
     useEffect(() => {
@@ -71,7 +71,9 @@ const FormContainer = ({ onHandleInputChange }) => {
             </div>
 
             <div className=''>
-                <Button className='mt-5 w-full'>Generate Questions</Button>
+                <Button className='mt-5 w-full cursor-pointer'
+                    onClick={() => GoToNext()}
+                >Generate Questions</Button>
             </div>
         </div>
     )
