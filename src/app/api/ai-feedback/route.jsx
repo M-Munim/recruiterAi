@@ -1,14 +1,10 @@
-import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { PROMPT } from "../../../../services/Constants";
+import { FEEDBACK_PROMPT } from "../../../../services/Constants";
 
 export async function POST(req) {
-    const { jobPosition, jobDescription, duration, type } = await req.json();
+    const { conversation } = await req.json();
+    const FINAL_PROMPT = FEEDBACK_PROMPT.replace('{{conversation}}', JSON.stringify(conversation));
 
-
-    const FINAL_PROMPT = PROMPT.replace('{{jobTitle}}', jobPosition).replace('{{jobDescription}}', jobDescription).replace('{{duration}}', duration).replace('{{type}}', type);
-
-    // console.log(FINAL_PROMPT);
     try {
         const openai = new OpenAI({
             baseURL: 'https://openrouter.ai/api/v1',
