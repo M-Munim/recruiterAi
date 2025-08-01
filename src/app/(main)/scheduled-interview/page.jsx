@@ -1,34 +1,31 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import InterviewCard from '../dashboard/_components/InterviewCard';
+import { supabase } from '../../../../services/supabaseClient'
 import { useUser } from '@/app/provider';
-import { supabase } from '../../../../services/supabaseClient';
+import InterviewCard from '../dashboard/_components/InterviewCard';
 import { Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const AllInterview = () => {
-
-    const [interviewList, setInterviewList] = useState([])
+const ScheduledInterview = () => {
     const { user } = useUser();
+    const [interviewList, setInterviewList] = useState()
 
     useEffect(() => {
-        user && getInterviewList()
-    }, [user])
-
+        user && getInterviewList();
+    }, [user]);
     const getInterviewList = async () => {
-        let { data: Interviews, error } = await supabase
-            .from('Interviews')
-            .select('*')
+        const result = await supabase.from("Interviews")
+            .select("jobPosition, duration, interview_id, interview-feedback(userEmail)")
             .eq('userEmail', user?.email)
-            .order('id', { ascending: false })
+            .order('id', { ascending: false });
 
-        // console.log(Interviews);
-        setInterviewList(Interviews)
+        console.log(result);
+        setInterviewList(result.data);
     }
     return (
-        <div className='my-5'>
-            <h2 className='font-bold text-2xl'>All Previously Scheduled Interviews</h2>
+        <div className='mt-3'>
+            <h2 className='font-bold text-2xl'>Interview List with Candidate Feedback</h2>
 
             {interviewList?.length === 0 &&
                 <div className='p-5 flex flex-col gap-3 items-center bg-gray-100 mt-5'>
@@ -40,7 +37,9 @@ const AllInterview = () => {
             {interviewList &&
                 <div className='grid grid-cols-2 xl:grid-cols-3 gap-5'>
                     {interviewList.map((interview, index) => (
-                        <InterviewCard interview={interview} key={index} />
+                        <InterviewCard interview={interview} key={index}
+                            viewDetails={true}
+                        />
                     ))}
                 </div>
 
@@ -49,4 +48,4 @@ const AllInterview = () => {
     )
 }
 
-export default AllInterview
+export default ScheduledInterview

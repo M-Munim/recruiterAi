@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { Copy, Send, Mail, MessageCircle } from 'lucide-react'
+import { Arrow } from '@radix-ui/react-select'
+import { Copy, Send, Mail, MessageCircle, ArrowRight } from 'lucide-react'
 import moment from 'moment'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 
-const InterviewCard = ({ interview }) => {
+const InterviewCard = ({ interview, viewDetails = false }) => {
     const [showOptions, setShowOptions] = useState(false);
     const copyLink = () => {
         const url = process.env.NEXT_PUBLIC_HOST_URL + '/' + interview?.interview_id
@@ -45,11 +46,12 @@ const InterviewCard = ({ interview }) => {
             <h2 className='mt-3 font-bold text-lg'>
                 {interview?.jobPosition}
             </h2>
-            <h2 className='text-sm mt-2'>
+            <h2 className='text-sm mt-2 flex justify-between'>
                 {interview?.duration}
+                <span>{interview['interview-feedback']?.length} Candidate</span>
             </h2>
 
-            <div className='flex gap-3 justify-between mt-3'>
+            {!viewDetails ? <div className='flex gap-3 justify-between mt-3'>
                 <Button variant="outline" onClick={copyLink}> <Copy /> Copy Link</Button>
                 {/* <Button onClick={onSend}> <Send /> Send</Button> */}
                 <div className="relative">
@@ -74,7 +76,9 @@ const InterviewCard = ({ interview }) => {
                         </div>
                     )}
                 </div>
-            </div>
+            </div> :
+                <Button className="mt-5 w-full" variant={"outline"}>View Details <ArrowRight /></Button>
+            }
         </div >
     )
 }
