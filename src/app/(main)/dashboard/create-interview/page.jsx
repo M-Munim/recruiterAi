@@ -14,6 +14,7 @@ const CreateInterview = () => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState();
     const [interviewId, setInterviewId] = useState();
+    const { user } = useUser();
 
     const onHandleInputChange = (field, value) => {
         setFormData(prev => ({
@@ -24,10 +25,14 @@ const CreateInterview = () => {
     // console.log(formData);
 
     const onGoToNext = () => {
-        // if (!formData?.jobPosition || !formData?.jobDescription || !formData?.duration || !formData?.type) {
-        //     toast.error('Please fill all fields to continue')
-        //     return;
-        // }
+        if (user?.credits <= 0) {
+            toast.error('You have no credits to create an interview. Please buy credits to continue.');
+            return
+        }
+        if (!formData?.jobPosition || !formData?.jobDescription || !formData?.duration || !formData?.type) {
+            toast.error('Please fill all fields to continue')
+            return;
+        }
 
         setStep(prev => prev + 1)
     }
