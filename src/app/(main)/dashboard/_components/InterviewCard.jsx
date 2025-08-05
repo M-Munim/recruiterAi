@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Arrow } from '@radix-ui/react-select'
 import { Copy, Send, Mail, MessageCircle, ArrowRight } from 'lucide-react'
 import moment from 'moment'
+import Link from 'next/link'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -77,13 +78,12 @@ const InterviewCard = ({ interview, viewDetails = false }) => {
                     )}
                 </div>
             </div> :
-                <Button className="mt-5 w-full" variant={"outline"}>View Details <ArrowRight /></Button>
+                <Link href={`/schedule-interview/${interview?.interview_id}/details`}>
+                    <Button className="mt-5 w-full" variant={"outline"}>View Details <ArrowRight /></Button>
+                </Link>
             }
         </div >
     )
 }
 
 export default InterviewCard
-
-
-// 4:36
